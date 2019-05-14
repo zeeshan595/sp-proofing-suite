@@ -11,11 +11,13 @@ import {
 } from "./Actions/FetchDeploymentList"
 
 export interface IDeploymentState {
-  Deployments: IDeployment[]
+  Deployments: IDeployment[];
+  Loading: boolean;
 }
 
 export const defaultState: IDeploymentState = {
-  Deployments: []
+  Deployments: [],
+  Loading: false
 };
 
 export default (state: IDeploymentState = defaultState, action: any): IDeploymentState => {
@@ -23,12 +25,14 @@ export default (state: IDeploymentState = defaultState, action: any): IDeploymen
     case FETCH_DEPLOYMENT_LIST_SUCCESS:
       state = {
         ...state,
+        Loading: false,
         Deployments: action.payload.Deployments
       }
       break;
     case CREATE_DEPLOYMENT_SUCCESS:
       state = {
         ...state,
+        Loading: false,
         Deployments: [
           ...state.Deployments,
           action.payload
@@ -37,9 +41,19 @@ export default (state: IDeploymentState = defaultState, action: any): IDeploymen
       break;
 
     case FETCH_DEPLOYMENT_LIST:
-    case FETCH_DEPLOYMENT_LIST_FAIL:
     case CREATE_DEPLOYMENT:
+      state = {
+        ...state,
+        Loading: true
+      };
+      break;
+    case FETCH_DEPLOYMENT_LIST_FAIL:
     case CREATE_DEPLOYMENT_FAIL:
+      console.log(action.payload);
+      state = {
+        ...state,
+        Loading: false
+      };
       break;
   }
 

@@ -5,13 +5,15 @@ import { RootState } from "../../Controller/Root";
 import { createDeployment } from "../../Controller/Deployment/Actions/CreateDeployment";
 
 const mapStateToProps: (state: RootState) => INewDeploymentProps = (state: RootState) => ({
+  isLoading: state.Deployment.Loading
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<AnyAction>,
   props: INewDeploymentProps
 ) => ({
-  createDeployment: (name: string, deployment: number) => createDeployment(name, deployment)(dispatch)
+  createDeployment: async (name: string, deployment: number, callback: () => void) =>
+    createDeployment(name, deployment)(dispatch).then(callback)
 });
 
 export default connect(

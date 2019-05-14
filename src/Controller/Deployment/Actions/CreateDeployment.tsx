@@ -7,8 +7,8 @@ export const CREATE_DEPLOYMENT_FAIL = "CREATE_DEPLOYMENT_FAIL";
 let isCreatingDeployment = false;
 export const createDeployment = (name: string, deployment: number) => {
   if (isCreatingDeployment) return;
-  return dispatch => {
-    new Promise(async (resolve, reject) => {
+  return (dispatch) => {
+    return new Promise(async (resolve, reject) => {
       isCreatingDeployment = true;
       dispatch({
         type: CREATE_DEPLOYMENT
@@ -16,18 +16,18 @@ export const createDeployment = (name: string, deployment: number) => {
 
       //ALTERIAN XML SOAP REQUEST :c
       const alterianData = '<?xml version="1.0" encoding="utf-8"?>' +
-      '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
-      "<soap:Body>" +
-      '<GetDeploymentLists xmlns="DMWebServices">' +
-      "<Token>" +
-      Token +
-      "</Token>" +
-      "<DeploymentID>" +
-      deployment +
-      "</DeploymentID>" +
-      "</GetDeploymentLists>" +
-      "</soap:Body>" +
-      "</soap:Envelope>";
+        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+        "<soap:Body>" +
+        '<GetDeploymentLists xmlns="DMWebServices">' +
+        "<Token>" +
+        Token +
+        "</Token>" +
+        "<DeploymentID>" +
+        deployment +
+        "</DeploymentID>" +
+        "</GetDeploymentLists>" +
+        "</soap:Body>" +
+        "</soap:Envelope>";
       const alterianXhr = await WebApi("POST", alterianApi + "sendmessage.asmx", "XML", alterianData);
       if (alterianXhr.status != 200) {
         dispatch({

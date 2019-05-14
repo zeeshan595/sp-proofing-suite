@@ -7,7 +7,7 @@ let isFetchingDeploymentList = false;
 export const fetchDeploymentList = () => {
   if (isFetchingDeploymentList) return;
   return dispatch => {
-    new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       isFetchingDeploymentList = true;
       dispatch({
         type: FETCH_DEPLOYMENT_LIST

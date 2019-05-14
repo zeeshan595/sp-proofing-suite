@@ -19,10 +19,11 @@ export default (method: "GET" | "POST", url: string, dataType: "JSON" | "XML", d
         }
         if (dataType == "JSON") {
             xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
         } else if (dataType == "XML") {
             xhr.setRequestHeader('Content-Type', 'text/xml');
+            xhr.send(data);
         }
-        xhr.send(JSON.stringify(data));
     });
 };
 

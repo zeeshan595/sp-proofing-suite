@@ -1,12 +1,14 @@
 import IDeployment from "../../Model/Deployment";
 import {
-  FETCH_DEPLOYMENT_LIST,
-  FETCH_DEPLOYMENT_LIST_SUCCESS,
-  FETCH_DEPLOYMENT_LIST_FAIL,
   CREATE_DEPLOYMENT_SUCCESS,
   CREATE_DEPLOYMENT_FAIL,
   CREATE_DEPLOYMENT
-} from "./Actions";
+} from "./Actions/CreateDeployment";
+import {
+  FETCH_DEPLOYMENT_LIST,
+  FETCH_DEPLOYMENT_LIST_SUCCESS,
+  FETCH_DEPLOYMENT_LIST_FAIL
+} from "./Actions/FetchDeploymentList"
 
 export interface IDeploymentState {
   Deployments: IDeployment[]

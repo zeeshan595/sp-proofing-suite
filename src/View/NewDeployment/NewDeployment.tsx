@@ -74,7 +74,7 @@ class NewDeployment extends React.Component<INewDeploymentProps, INewDeploymentS
         {this.state.ForumErrors.map((val, index) => <p key={index} className="red">{val}</p>)}
         <input type="text" placeholder="Deployment Name" onChange={this.onDeploymentNameChange} />
         <input type="number" placeholder="Deployment Identifier" onChange={this.onDeploymentIdentifierChange} />
-        <hr />
+        <div className="seperator"></div>
         <button
           onClick={() => this.props.history.goBack()}
           className="red">

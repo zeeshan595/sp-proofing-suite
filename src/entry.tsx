@@ -8,6 +8,21 @@ import "./Style.scss";
 
 import App from "./View/App.connect"; 
 
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
+
+const app = firebase.initializeApp({
+  apiKey: "AIzaSyBeayIQXkxDdk3J5bVtuXwu_061duvn_uQ",
+  authDomain: "sp-proofing-suite.firebaseapp.com",
+  databaseURL: "https://sp-proofing-suite.firebaseio.com",
+  projectId: "sp-proofing-suite",
+  storageBucket: "sp-proofing-suite.appspot.com",
+  messagingSenderId: "198072435640",
+  appId: "1:198072435640:web:df64301852b687ba"
+});
+
 const middleware = [];
 if (process.env.NODE_ENV == "development") {
   middleware.push(logger);

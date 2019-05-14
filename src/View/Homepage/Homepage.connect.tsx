@@ -4,16 +4,15 @@ import Homepage, { IHomepageProps } from "./Homepage";
 import { RootState } from "../../Controller/Root";
 import { fetchDeploymentList } from "../../Controller/Deployment/Actions/FetchDeploymentList";
 
-const mapStateToProps: (state: RootState) => IHomepageProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({
   Deployments: state.Deployment.Deployments
-});
+}) as IHomepageProps;
 
 const mapDispatchToProps = (
-  dispatch: Dispatch<AnyAction>,
-  props: IHomepageProps
+  dispatch: Dispatch<AnyAction>
 ) => ({
   fetchDeployments: () => fetchDeploymentList()(dispatch)
-});
+}) as IHomepageProps;
 
 export default connect(
   mapStateToProps,

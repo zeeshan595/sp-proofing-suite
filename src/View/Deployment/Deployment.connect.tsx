@@ -4,14 +4,13 @@ import { RootState } from "../../Controller/Root";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 
-const mapStateToProps: (state: RootState) => IDeploymentProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({
 
-});
+}) as IDeploymentProps;
 
 const mapDispatchToProps = (
-    dispatch: Dispatch<AnyAction>,
-    props: IDeploymentProps
+    dispatch: Dispatch<AnyAction>
 ) => ({
-});
+}) as IDeploymentProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Deployment);

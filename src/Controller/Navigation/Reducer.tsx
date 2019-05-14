@@ -2,6 +2,7 @@ import { Action } from "redux";
 import INavigation from "../../Model/Navigation";
 import Homepage from "../../View/Homepage/Homepage.connect";
 import NewDeployment from "../../View/NewDeployment/NewDeployment.connect";
+import Deployment from "../../View/Deployment/Deployment.connect";
 
 export interface INavigationState {
   Navigation: INavigation[]
@@ -17,6 +18,11 @@ export const defaultState: INavigationState = {
     {
       Path: "/new-deployment",
       Component: NewDeployment,
+      exact: true
+    },
+    {
+      Path: "/deployment/:deployment",
+      Component: Deployment,
       exact: true
     }
   ]

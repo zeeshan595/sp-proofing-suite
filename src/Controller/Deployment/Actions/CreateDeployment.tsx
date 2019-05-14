@@ -1,46 +1,6 @@
-import WebApi, { firebaseApi, alterianApi, documentToJson } from "../WebApi";
-import Token from "../AlterianToken";
+import WebApi, { firebaseApi, alterianApi, documentToJson } from "../../WebApi";
+import Token from "../../AlterianToken";
 
-//=====================
-//FETCH DEPLOYMENT LIST
-//=====================
-export const FETCH_DEPLOYMENT_LIST = "FETCH_DEPLOYMENT_LIST";
-export const FETCH_DEPLOYMENT_LIST_SUCCESS = "FETCH_DEPLOYMENT_LIST_SUCCESS";
-export const FETCH_DEPLOYMENT_LIST_FAIL = "FETCH_DEPLOYMENT_LIST_FAIL";
-let isFetchingDeploymentList = false;
-export const fetchDeploymentList = () => {
-  if (isFetchingDeploymentList) return;
-  return dispatch => {
-    new Promise(async (resolve, reject) => {
-      isFetchingDeploymentList = true;
-      dispatch({
-        type: FETCH_DEPLOYMENT_LIST
-      });
-
-      const xhr = await WebApi("GET", firebaseApi + "GetDeployments", "JSON", null);
-      if (xhr.status != 200) {
-        dispatch({
-          type: FETCH_DEPLOYMENT_LIST_FAIL,
-          payload: xhr.response
-        });
-        isFetchingDeploymentList = false;
-        reject();
-        return;
-      }
-      const response = xhr.response;
-      dispatch({
-        type: FETCH_DEPLOYMENT_LIST_SUCCESS,
-        payload: JSON.parse(response)
-      })
-      isFetchingDeploymentList = false;
-      resolve();
-    });
-  }
-};
-
-//=================
-//CREATE DEPLOYMENT
-//=================
 export const CREATE_DEPLOYMENT = "CREATE_DEPLOYMENT";
 export const CREATE_DEPLOYMENT_SUCCESS = "CREATE_DEPLOYMENT_SUCCESS";
 export const CREATE_DEPLOYMENT_FAIL = "CREATE_DEPLOYMENT_FAIL";

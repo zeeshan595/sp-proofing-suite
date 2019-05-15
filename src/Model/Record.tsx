@@ -1,5 +1,7 @@
-import RecordStats from "./RecordStatus";
+import IRecordStats from "./RecordStatus";
 
-export default interface INavigation {
-    Status: RecordStats
+export default interface IRecord {
+    Identifier: number;
+    Status: IRecordStats;
+    Comment: string;
 }

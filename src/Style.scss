@@ -36,6 +36,7 @@ p {
 button {
   border: none;
   outline: none;
+  background-color: #dcdcdc;
   padding: 15px 20px;
   margin: 10px;
   font-size: 17px;
@@ -43,6 +44,13 @@ button {
   box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: 0.3s;
+
+  &:hover {
+    background-color: rgb(231, 231, 231);
+  }
+  &:active {
+    background-color: rgb(199, 199, 199);
+  }
 
   &.blue {
     background-color: #007bff;
@@ -80,6 +88,19 @@ button {
     &:active {
       box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.2);
       background-color: #ca2738;
+    }
+  }
+
+  &.yellow {
+    background-color: #ffc107;
+    color: #000000;
+    &:hover {
+      background-color: #ffcb2f;
+      color: #000000;
+    }
+    &:active {
+      background-color: #f0b401;
+      color: #000000;
     }
   }
 }
@@ -151,11 +172,19 @@ input[type="number"] {
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

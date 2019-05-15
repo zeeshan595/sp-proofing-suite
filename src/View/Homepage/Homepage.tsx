@@ -1,11 +1,13 @@
 import * as React from "react";
 import IDeployment from "../../Model/Deployment";
 import { History } from "history";
+import Loading from "../Loading";
 
 export interface IHomepageProps {
   Deployments?: IDeployment[],
   fetchDeployments?: () => void,
-  history?: History
+  history?: History;
+  Loading?: boolean;
 }
 
 export interface IHomepageState {
@@ -18,6 +20,10 @@ class Homepage extends React.Component<IHomepageProps, IHomepageState>
   }
 
   render() {
+    if (this.props.Loading) {
+      return <Loading />
+    }
+
     let deployments: JSX.Element[] = [];
     if (this.props.Deployments) {
       deployments = this.props.Deployments.map((val, index) => (

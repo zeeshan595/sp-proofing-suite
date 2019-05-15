@@ -5,7 +5,8 @@ import { RootState } from "../../Controller/Root";
 import { fetchDeploymentList } from "../../Controller/Deployment/Actions/FetchDeploymentList";
 
 const mapStateToProps = (state: RootState) => ({
-  Deployments: state.Deployment.Deployments
+  Deployments: state.Deployment.Deployments,
+  Loading: state.Deployment.Loading
 }) as IHomepageProps;
 
 const mapDispatchToProps = (

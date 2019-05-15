@@ -4,6 +4,7 @@ import Loading from "../Loading";
 export interface ILoginProps {
     Loading?: boolean;
     attemptLogin?: (email: string, password: string) => void;
+    Errors?: string[];
 }
 
 export interface ILoginState {
@@ -43,6 +44,11 @@ class Login extends React.Component<ILoginProps, ILoginState> {
 
         return (
             <div className="page">
+                {this.props.Errors.map((e, index) => (
+                    <p key={index} className="red">
+                        {e}
+                    </p>
+                ))}
                 <h4>Please Login to continue</h4>
                 <input type="email" placeholder="email" onChange={this.onEmailChange} />
                 <input type="password" placeholder="password" onChange={this.onPasswordChange} />

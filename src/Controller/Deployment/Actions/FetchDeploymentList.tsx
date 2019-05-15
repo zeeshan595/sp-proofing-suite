@@ -1,4 +1,5 @@
-import WebApi, { firebaseApi, } from "../../WebApi";
+import * as firebase from "firebase/app"
+import IDeployment from "../../../Model/Deployment";
 
 export const FETCH_DEPLOYMENT_LIST = "FETCH_DEPLOYMENT_LIST";
 export const FETCH_DEPLOYMENT_LIST_SUCCESS = "FETCH_DEPLOYMENT_LIST_SUCCESS";
@@ -13,23 +14,34 @@ export const fetchDeploymentList = () => {
         type: FETCH_DEPLOYMENT_LIST
       });
 
-      const xhr = await WebApi("GET", firebaseApi + "GetDeployments", "JSON", null);
-      if (xhr.status != 200) {
+      try {
+        const deployments = [] as IDeployment[];
+        const query = await firebase.app().firestore().collection("Deployments").get();
+        for (let i = 0; i < query.docs.length; i++) {
+          const data = query.docs[i].data();
+          deployments.push({
+            Identifier: data.Identifier,
+            List: data.List,
+            Name: data.Name,
+            TotalRecords: data.TotalRecords
+          });
+        }
+        dispatch({
+          type: FETCH_DEPLOYMENT_LIST_SUCCESS,
+          payload: {
+            Deployments: deployments
+          }
+        });
+        isFetchingDeploymentList = false;
+        resolve();
+      } catch (e) {
         dispatch({
           type: FETCH_DEPLOYMENT_LIST_FAIL,
-          payload: xhr.response
+          payload: e
         });
         isFetchingDeploymentList = false;
         reject();
-        return;
       }
-      const response = xhr.response;
-      dispatch({
-        type: FETCH_DEPLOYMENT_LIST_SUCCESS,
-        payload: JSON.parse(response)
-      });
-      isFetchingDeploymentList = false;
-      resolve();
     });
   }
 };

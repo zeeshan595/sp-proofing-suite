@@ -1,5 +1,7 @@
-import WebApi, { firebaseApi, alterianApi, documentToJson } from "../../WebApi";
+import * as firebase from "firebase/app";
 import Token from "../../AlterianToken";
+
+import WebApi, { alterianApi, documentToJson } from "../../WebApi";
 
 export const CREATE_DEPLOYMENT = "CREATE_DEPLOYMENT";
 export const CREATE_DEPLOYMENT_SUCCESS = "CREATE_DEPLOYMENT_SUCCESS";
@@ -48,33 +50,39 @@ export const createDeployment = (name: string, deployment: number) => {
         "GetDeploymentListsResponse"
         ]["GetDeploymentListsResult"]["DMList"]["RecordCount"]["_text"];
 
-      //Firebase REST Request
-      const xhr = await WebApi("POST", firebaseApi + "CreateDeployment", "JSON", {
-        Name: name,
-        Identifier: deployment,
-        List: listIdentifier,
-        TotalRecords: totalRecords
-      });
-      if (xhr.status != 200) {
+      try {
+        await firebase.
+          app().
+          firestore().
+          collection("Deployments").
+          doc(deployment.toString()).
+          set({
+            Name: name,
+            Identifier: deployment,
+            List: listIdentifier,
+            TotalRecords: totalRecords
+          });
+
+        dispatch({
+          type: CREATE_DEPLOYMENT_SUCCESS,
+          payload: {
+            Name: name,
+            Identifier: deployment,
+            List: listIdentifier,
+            TotalRecords: totalRecords
+          }
+        });
+        isCreatingDeployment = false;
+        resolve();
+      }
+      catch (e) {
         dispatch({
           type: CREATE_DEPLOYMENT_FAIL,
-          payload: xhr.response
+          payload: e
         });
         isCreatingDeployment = false;
         reject();
-        return;
       }
-      dispatch({
-        type: CREATE_DEPLOYMENT_SUCCESS,
-        payload: {
-          Name: name,
-          Identifier: deployment,
-          List: listIdentifier,
-          TotalRecords: totalRecords
-        }
-      });
-      isCreatingDeployment = false;
-      resolve();
     });
   };
 };

@@ -12,24 +12,22 @@ export const attemptLogin = (email, password) => {
             dispatch({
                 type: ATTEMPT_LOGIN
             });
-            isAttemptingLogin = true;
-            const login = await firebase.app().auth().signInWithEmailAndPassword(email, password);
-            if (!login.user) {
+            try {
+                isAttemptingLogin = true;
+                const login = await firebase.app().auth().signInWithEmailAndPassword(email, password);
+                dispatch({
+                    type: ATTEMPT_LOGIN_SUCCESS,
+                    payload: login.user
+                });
+                isAttemptingLogin = true;
+                resolve();
+            } catch (e) {
                 dispatch({
                     type: ATTEMPT_LOGIN_FAIL,
                     payload: "Wrong username or password"
                 });
                 isAttemptingLogin = false;
-                reject();
-                return;
             }
-
-            dispatch({
-                type: ATTEMPT_LOGIN_SUCCESS,
-                payload: login.user
-            });
-            isAttemptingLogin = true;
-            resolve();
         });
     }
 };

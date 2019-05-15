@@ -4,11 +4,13 @@ import { ATTEMPT_LOGIN, ATTEMPT_LOGIN_FAIL, ATTEMPT_LOGIN_SUCCESS } from "./Acti
 export interface IAuthenticationState {
     User: null | firebase.User;
     Loading: boolean;
+    Errors: string[]
 }
 
 export const defaultState: IAuthenticationState = {
     User: null,
-    Loading: false
+    Loading: false,
+    Errors: []
 }
 
 export default (state: IAuthenticationState = defaultState, action: any): IAuthenticationState => {
@@ -16,14 +18,19 @@ export default (state: IAuthenticationState = defaultState, action: any): IAuthe
         case ATTEMPT_LOGIN:
             state = {
                 ...state,
-                Loading: true
+                Loading: true,
+                Errors: []
             };
             break;
         case ATTEMPT_LOGIN_FAIL:
             state = {
                 ...state,
                 User: null,
-                Loading: false
+                Loading: false,
+                Errors: [
+                    ...state.Errors,
+                    action.payload
+                ]
             };
             break;
         case ATTEMPT_LOGIN_SUCCESS:

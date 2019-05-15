@@ -6,11 +6,11 @@ import { RootReducer } from "./Controller/Root";
 import logger from "redux-logger";
 import "./Style.scss";
 
-import App from "./View/App.connect"; 
+import App from "./View/App.connect";
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/firestore';
 
 
 const app = firebase.initializeApp({

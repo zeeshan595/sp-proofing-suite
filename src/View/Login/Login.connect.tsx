@@ -6,7 +6,8 @@ import { AnyAction } from "redux";
 import { attemptLogin } from "../../Controller/Authentication/Actions/Login";
 
 const mapStateToProps = (state: RootState) => ({
-    Loading: state.Authentication.Loading
+    Loading: state.Authentication.Loading,
+    Errors: state.Authentication.Errors
 }) as ILoginProps;
 
 const mapDispatchToProps = (

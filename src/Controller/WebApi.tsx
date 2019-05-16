@@ -1,5 +1,5 @@
 import { json2xml, xml2json, js2xml, xml2js, ElementCompact } from "xml-js";
-export const alterianApi = "http://scottishpower.e.alterian.net/";
+export const alterianApi = "https://scottishpower.e.alterian.net/";
 
 export default (method: "GET" | "POST", url: string, dataType: "JSON" | "XML", data: any): Promise<XMLHttpRequest> => {
     return new Promise((resolve, reject) => {

@@ -17,6 +17,9 @@ class App extends React.Component<IAppProps, IAppState>
 {
   render() {
     if (!this.props.Authenticated) {
+      if (window.location.pathname != "/") {
+        window.location.pathname = "/";
+      }
       return <Login />
     }
     return (

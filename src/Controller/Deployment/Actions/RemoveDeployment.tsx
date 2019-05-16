@@ -21,9 +21,9 @@ export const removeDeployment = (deployment: number) => {
           doc(deployment.toString());
         const query = await deploymentRef.collection("Records").get();
         for (let i = 0; i < query.docs.length; i++) {
-          await query.docs[i].ref.set(null);
+          await query.docs[i].ref.delete();
         }
-        await deploymentRef.set(null);
+        await deploymentRef.delete();
         dispatch({
           type: REMOVE_DEPLOYMENT_SUCCESS,
           payload: deployment

@@ -13,31 +13,70 @@ export interface IDeploymentProps {
     Loading: boolean;
     Deployments: IDeployment[];
     fetchRecordList: (deployment: number) => void;
-    removeDeployment: (deployment: number) => void;
+    removeDeployment: (deployment: number, callback: () => void) => Promise<void>;
 }
 
 export interface IDeploymentState {
     Deployment: number;
     TotalRecords: number;
+    List: number;
 }
 
 class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
 
     state: IDeploymentState = {
         Deployment: -1,
-        TotalRecords: 0
+        TotalRecords: 0,
+        List: 0
     };
 
     componentWillMount() {
         const deployment = this.props.match.params["deployment"];
+        const deploymentO = this.props.Deployments.find(val => {
+            return val.Identifier == deployment;
+        });
         this.setState({
             ...this.state,
             Deployment: deployment,
-            TotalRecords: this.props.Deployments.find(val => {
-                return val.Identifier == deployment;
-            }).TotalRecords
+            TotalRecords: deploymentO.TotalRecords,
+            List: deploymentO.List
         });
         this.props.fetchRecordList(deployment);
+    }
+
+    createTotalRecordsUi = (totalRecords: number, records: IRecord[]): JSX.Element[] => {
+        const ui: JSX.Element[] = [];
+        for (let i: number = 1; i < (parseInt(totalRecords.toString()) + 1); i++) {
+            let recordFound: IRecord = null;
+            for (let j: number = 0; j < records.length; j++) {
+                if (records[j].Identifier == i) {
+                    recordFound = records[j];
+                }
+            }
+            let status = 0;
+            let comment = "";
+            if (recordFound) {
+                status = recordFound.Status;
+                comment = recordFound.Comment;
+            }
+            ui.push(
+                <div
+                    key={i}
+                    className="row"
+                    onClick={() => this.props.history.push(
+                        "/record/" +
+                        this.state.Deployment +
+                        "/" +
+                        i
+                    )}
+                >
+                    <div className="cell">{i}</div>
+                    <div className="cell">{IRecordStats[status]}</div>
+                    <div className="cell">{comment.substr(0, 15)}</div>
+                </div>
+            );
+        }
+        return ui;
     }
 
     render() {
@@ -54,6 +93,12 @@ class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
                 </button>
                 <button
                     className="red"
+                    onClick={
+                        () => this.props.removeDeployment(
+                            this.state.Deployment,
+                            () => this.props.history.goBack()
+                        )
+                    }
                 >
                     Remove Deployment
                 </button>
@@ -65,24 +110,28 @@ class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
                 </button>
                 <button
                     className="yellow"
+                    disabled={true}
                 >
                     Build PDF
                  </button>
+                <div className="seperator"></div>
+                <div className="row-heading">
+                    <div className="cell">Deployment</div>
+                    <div className="cell">List</div>
+                    <div className="cell">Total Records</div>
+                </div>
+                <div className="row-static">
+                    <div className="cell">{this.state.Deployment}</div>
+                    <div className="cell">{this.state.List}</div>
+                    <div className="cell">{this.state.TotalRecords}</div>
+                </div>
                 <div className="seperator"></div>
                 <div className="row-heading">
                     <div className="cell">Record Number</div>
                     <div className="cell">Status</div>
                     <div className="cell">Comment</div>
                 </div>
-                {
-                    this.props.Records.map((val, index) => (
-                        <div key={index} className="row">
-                            <div className="cell">{val.Identifier}</div>
-                            <div className="cell">{IRecordStats[val.Status]}</div>
-                            <div className="cell">{val.Comment.substr(0, 15)}</div>
-                        </div>
-                    ))
-                }
+                {this.createTotalRecordsUi(this.state.TotalRecords, this.props.Records)}
             </div>
         );
     }

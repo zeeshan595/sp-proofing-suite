@@ -1,5 +1,5 @@
 import * as firebase from "firebase/app";
-import Token from "../../AlterianToken";
+import TokenCreator from "../../AlterianToken";
 
 import WebApi, { alterianApi, documentToJson } from "../../WebApi";
 
@@ -11,6 +11,7 @@ export const createDeployment = (name: string, deployment: number) => {
   if (isCreatingDeployment) return;
   return (dispatch) => {
     return new Promise(async (resolve, reject) => {
+      const token = await TokenCreator();
       isCreatingDeployment = true;
       dispatch({
         type: CREATE_DEPLOYMENT
@@ -22,7 +23,7 @@ export const createDeployment = (name: string, deployment: number) => {
         "<soap:Body>" +
         '<GetDeploymentLists xmlns="DMWebServices">' +
         "<Token>" +
-        Token +
+        token +
         "</Token>" +
         "<DeploymentID>" +
         deployment +

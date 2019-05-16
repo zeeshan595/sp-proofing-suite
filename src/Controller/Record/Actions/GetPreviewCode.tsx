@@ -1,4 +1,4 @@
-import Token from "../../AlterianToken";
+import TokenCreator from "../../AlterianToken";
 import WebApi, { alterianApi, documentToJson } from "../../WebApi";
 
 export const GET_PREVIEW_CODE = "GET_PREVIEW_CODE";
@@ -13,7 +13,7 @@ export const getPreviewCode = (deployment: number, record: number, list: number)
       dispatch({
         type: GET_PREVIEW_CODE
       });
-
+      const token = await TokenCreator();
       try {
         //Get Preview Totals (need to call this before we can generate a preview)
         const previewTotalsData =
@@ -22,7 +22,7 @@ export const getPreviewCode = (deployment: number, record: number, list: number)
           "<soap:Body>" +
           '<PreviewDeploymentTotal xmlns="DMWebServices">' +
           "<Token>" +
-          Token +
+          token +
           "</Token>" +
           "<DeploymentID>" +
           deployment +
@@ -46,7 +46,7 @@ export const getPreviewCode = (deployment: number, record: number, list: number)
           "<soap:Body>" +
           '<SAMPreviewEx xmlns="DMWebServices">' +
           "<Token>" +
-          Token +
+          token +
           "</Token>" +
           "<DeploymentID>" +
           deployment +

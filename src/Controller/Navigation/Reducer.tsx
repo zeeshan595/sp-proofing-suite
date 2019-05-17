@@ -4,6 +4,7 @@ import Homepage from "../../View/Homepage/Homepage.connect";
 import NewDeployment from "../../View/NewDeployment/NewDeployment.connect";
 import Deployment from "../../View/Deployment/Deployment.connect";
 import Record from "../../View/Record/Record.connect";
+import BuildPDF from "../../View/BuildPDF/BuildPDF.connect";
 
 export interface INavigationState {
   Navigation: INavigation[]
@@ -29,6 +30,11 @@ export const defaultState: INavigationState = {
     {
       Path: "/record/:deployment/:record",
       Component: Record,
+      exact: true
+    },
+    {
+      Path: "/pdf/:deployment/",
+      Component: BuildPDF,
       exact: true
     }
   ]

@@ -8,7 +8,7 @@ import { removeDeployment } from "../../Controller/Deployment/Actions/RemoveDepl
 
 const mapStateToProps = (state: RootState) => ({
     Records: state.Record.Records,
-    Loading: state.Record.Loading,
+    Loading: state.Record.Loading || state.Deployment.Loading,
     Deployments: state.Deployment.Deployments
 }) as IDeploymentProps;
 

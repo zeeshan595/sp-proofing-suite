@@ -11,6 +11,9 @@ export const updateRecordStatus = (deployment: number, record: number, status: R
     return new Promise(async (resolve, reject) => {
       isUpdatingRecordStatus = true;
       try {
+        dispatch({
+          type: UPDATE_RECORD_STATUS
+        });
         await firebase.
           app().
           firestore().

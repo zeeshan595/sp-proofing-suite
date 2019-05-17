@@ -72,11 +72,18 @@ class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
                 >
                     <div className="cell">{i}</div>
                     <div className="cell">{IRecordStats[status]}</div>
-                    <div className="cell">{comment.substr(0, 15)}</div>
+                    <div className="cell">{this.getLimitedRecordCommentSize(comment)}</div>
                 </div>
             );
         }
         return ui;
+    }
+
+    getLimitedRecordCommentSize = (comment: string) => {
+        if (!comment || comment.length < 12)
+            return comment;
+
+        return comment.substr(0, 15);
     }
 
     render() {
@@ -110,7 +117,7 @@ class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
                 </button>
                 <button
                     className="yellow"
-                    disabled={true}
+                    onClick={() => this.props.history.push("/pdf/" + this.state.Deployment)}
                 >
                     Build PDF
                  </button>

@@ -81,10 +81,17 @@ class Record extends React.Component<IRecordProps, IRecordState> {
   }
 
   onBackClick = async () => {
+    let comment = "";
+    if (this.state.Record.Comment)
+      comment = this.state.Record.Comment;
+    else if (this.state.Record.Status == RecordStatus.Pending) {
+      this.props.history.goBack();
+      return;
+    }
     await this.props.updateRecordComment(
       this.state.Deployment.Identifier,
       this.state.Record.Identifier,
-      this.state.Record.Comment
+      comment
     );
     this.props.history.goBack();
   }

@@ -10,7 +10,9 @@ export const updateRecordComment = (deployment: number, record: number, comment:
     return new Promise(async (resolve, reject) => {
       isUpdatingRecordComment = true;
       try {
-
+        dispatch({
+          type: UPDATE_RECORD_COMMENT
+        })
         await firebase.
           app().
           firestore().

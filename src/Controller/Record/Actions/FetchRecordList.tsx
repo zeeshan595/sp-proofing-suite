@@ -11,6 +11,9 @@ export const fetchRecordList = (deployment: number) => {
     return new Promise(async (resolve, reject) => {
       isFetchedRecordList = true;
       try {
+        dispatch({
+          type: FETCH_RECORD_LIST
+        });
         const query = await firebase.
           app().
           firestore().

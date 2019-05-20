@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 
 const mapStateToProps = (state: RootState) => ({
-  
+  Progress: state.BuildPDF.Progress
 }) as IBuildPDFProps
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({

@@ -35,9 +35,7 @@ export const buildPdf = (
         }
         dispatch({
           type: BUILD_PDF_SUCCESS,
-          payload: {
-            PreviewContent: previewContent
-          }
+          payload: previewContent
         })
         isBuildingPdf = false;
         resolve();

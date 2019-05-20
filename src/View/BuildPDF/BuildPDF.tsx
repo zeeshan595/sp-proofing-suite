@@ -3,6 +3,7 @@ import { History } from "history";
 
 export interface IBuildPDFProps {
   history?: History;
+  Progress?: number;
 }
 
 export interface IBuildPDFState {
@@ -22,22 +23,23 @@ class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
     });
   }
 
-  render() {
+  buildPdfSettingsUi = () => {
     const warnings: string[] = [];
+    let landingPageOptions;
     if (this.state.IncludeLandingPage) {
       warnings.push("Hitting the scottish power website too many times can cause it to block you from accessing it.")
+      landingPageOptions = (
+        <React.Fragment>
+          <input type="number" placeholder="Landing page screenshot delay (mili-seconds)" />
+          <input type="text" placeholder="Landing page URL Pattern" />
+        </React.Fragment>
+      );
     }
 
     return (
-      <div className="page">
+      <React.Fragment>
         <h4>PDF Builder</h4>
-        {
-          warnings.map((val, index) => (
-            <p key={index} className="red">
-              {val}
-            </p>
-          ))
-        }
+        <div className="seperator"></div>
         <label className="switch">
           <input type="checkbox" onChange={this.onChangeIncludeLandingPage} />
           <span className="slider round"></span>
@@ -45,6 +47,14 @@ class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
         <div className="sliderText">
           Include Landing Page
         </div>
+        {
+          warnings.map((val, index) => (
+            <p key={index} className="red">
+              {val}
+            </p>
+          ))
+        }
+        {landingPageOptions}
         <div className="seperator"></div>
         <button onClick={() => this.props.history.goBack()}>
           Back
@@ -52,6 +62,14 @@ class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
         <button className="blue">
           Build PDF
         </button>
+      </React.Fragment>
+    );
+  }
+
+  render() {
+    return (
+      <div className="page">
+        {this.buildPdfSettingsUi()}
       </div>
     );
   }

@@ -22,7 +22,7 @@ export const buildPdf = (
       });
       try {
         const previewContent: string[] = [];
-        for (let i: number = 1; i < totalRecords + 1; i++) {
+        for (let i: number = 1; i < (parseInt(totalRecords.toString()) + 1); i++) {
           previewContent.push(await fetchPreviewContent(
             deployment,
             list,
@@ -114,6 +114,8 @@ const fetchPreviewContent = async (
     }
     
     //Use the preview key to get preview content
+    const preview = await WebApi("GET", "https://images.scottishpower.co.uk/?" + previewKey, "JSON", null);  
+    return preview.responseText;
   } catch (e) {
     console.log(e);
   }

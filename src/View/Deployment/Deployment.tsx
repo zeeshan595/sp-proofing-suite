@@ -59,10 +59,16 @@ class Deployment extends React.Component<IDeploymentProps, IDeploymentState> {
                 status = recordFound.Status;
                 comment = recordFound.Comment;
             }
+            let classColor = '';
+            if (status == IRecordStats.Approved) {
+                classColor = ' row-green ';
+            } else if (status == IRecordStats.Rejected) {
+                classColor = ' row-red ';
+            }
             ui.push(
                 <div
                     key={i}
-                    className="row"
+                    className={"row " + classColor}
                     onClick={() => this.props.history.push(
                         "/record/" +
                         this.state.Deployment +

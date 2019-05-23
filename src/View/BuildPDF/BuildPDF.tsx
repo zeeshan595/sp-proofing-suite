@@ -1,19 +1,34 @@
 import * as React from "react";
 import { History } from "history";
+import IDeployment from "../../Model/Deployment";
+import { match } from "react-router";
 
 export interface IBuildPDFProps {
+  match?: match;
   history?: History;
   Progress?: number;
+  Deployments?: IDeployment[];
+  buildPdf?: (deployment: number, list: number, totalRecords: number) => Promise<void>;
 }
 
 export interface IBuildPDFState {
   IncludeLandingPage: boolean;
+  Deployment: IDeployment;
 }
 
 class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
 
   state: IBuildPDFState = {
-    IncludeLandingPage: false
+    IncludeLandingPage: false,
+    Deployment: null,
+  }
+
+  componentWillMount() {
+    const deployment = this.props.match.params["deployment"];
+    this.setState({
+      ...this.state,
+      Deployment: this.props.Deployments.find(val => val.Identifier == deployment)
+    });
   }
 
   onChangeIncludeLandingPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +54,7 @@ class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
     return (
       <React.Fragment>
         <h4>PDF Builder</h4>
+        <p className="red">This is under development and not finished. Please avoid using this.</p>
         <div className="seperator"></div>
         <label className="switch">
           <input type="checkbox" onChange={this.onChangeIncludeLandingPage} />
@@ -59,7 +75,14 @@ class BuildPDF extends React.Component<IBuildPDFProps, IBuildPDFState> {
         <button onClick={() => this.props.history.goBack()}>
           Back
         </button>
-        <button className="blue">
+        <button
+          className="blue"
+          onClick={() => this.props.buildPdf(
+            this.state.Deployment.Identifier,
+            this.state.Deployment.List,
+            this.state.Deployment.TotalRecords
+          )}
+        >
           Build PDF
         </button>
       </React.Fragment>
